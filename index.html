@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watts Dolphins | Youth Football & Cheer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #0A1628;
+      --navy-light: #152238;
+      --aqua: #00B4D8;
+      --aqua-dark: #0096B7;
+      --aqua-glow: rgba(0,180,216,0.3);
+      --teal: #00D4AA;
+      --coral: #FF6B6B;
+      --gold: #FFD700;
+      --white: #ffffff;
+      --gray: #8899AA;
+      --light-gray: #C8D6E0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.04;
+      background-image: 
+        linear-gradient(var(--aqua) 1px, transparent 1px),
+        linear-gradient(90deg, var(--aqua) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .content { position: relative; z-index: 1; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0,180,216,0.15);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 2px;
+    }
+    .nav-logo .dolphins { color: var(--aqua); }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--light-gray);
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--aqua); }
+    .nav-cta {
+      background: var(--aqua) !important;
+      color: var(--navy) !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 800 !important;
+    }
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { width: 24px; height: 3px; background: var(--white); border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--navy); padding: 20px;
+        border-bottom: 1px solid rgba(0,180,216,0.2);
+      }
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,180,216,0.15) 0%, transparent 60%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to top, var(--navy), transparent);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,180,216,0.15);
+      border: 1px solid rgba(0,180,216,0.3);
+      padding: 8px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--aqua);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 10vw, 100px);
+      line-height: 0.95;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+    .hero h1 .watts { color: var(--white); }
+    .hero h1 .dolphins { color: var(--aqua); }
+    .hero-sub {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(18px, 3vw, 28px);
+      letter-spacing: 6px;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--light-gray);
+      max-width: 550px;
+      margin: 0 auto 36px;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: none; cursor: pointer;
+    }
+    .btn-football {
+      background: var(--aqua);
+      color: var(--navy);
+      box-shadow: 0 4px 25px var(--aqua-glow);
+    }
+    .btn-football:hover { transform: translateY(-2px); box-shadow: 0 8px 35px var(--aqua-glow); }
+    .btn-cheer {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--coral);
+    }
+    .btn-cheer:hover { background: var(--coral); color: var(--navy); transform: translateY(-2px); }
+
+    /* TAB SELECTOR */
+    .tab-section {
+      padding: 60px 24px 0;
+      text-align: center;
+    }
+    .tab-buttons {
+      display: flex; justify-content: center; gap: 16px; margin-bottom: 0;
+    }
+    .tab-btn {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 3px;
+      padding: 14px 40px;
+      border: 2px solid rgba(0,180,216,0.3);
+      background: transparent;
+      color: var(--light-gray);
+      border-radius: 12px 12px 0 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .tab-btn.active-football {
+      background: var(--navy-light);
+      border-color: var(--aqua);
+      border-bottom-color: var(--navy-light);
+      color: var(--aqua);
+    }
+    .tab-btn.active-cheer {
+      background: var(--navy-light);
+      border-color: var(--coral);
+      border-bottom-color: var(--navy-light);
+      color: var(--coral);
+    }
+    .tab-btn:hover { border-color: var(--aqua); color: var(--aqua); }
+
+    /* PANELS */
+    .panel {
+      display: none;
+      padding: 60px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .panel.active { display: block; }
+
+    /* FOOTBALL PANEL */
+    .football-panel { border-top: 2px solid var(--aqua); }
+
+    .pricing-card {
+      background: linear-gradient(135deg, var(--navy-light), rgba(0,180,216,0.08));
+      border: 1px solid rgba(0,180,216,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card::before {
+      content: '🏈';
+      position: absolute;
+      top: -10px; right: -10px;
+      font-size: 120px;
+      opacity: 0.05;
+    }
+    .pricing-label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .pricing-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      color: var(--aqua);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .pricing-amount .regular {
+      font-size: 32px;
+      color: var(--gray);
+      text-decoration: line-through;
+      margin-left: 12px;
+    }
+    .pricing-note { color: var(--gray); font-size: 14px; margin-bottom: 24px; }
+
+    .includes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .include-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+      background: rgba(0,180,216,0.06);
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .include-item .check { color: var(--aqua); font-weight: 800; }
+
+    .location-box {
+      background: rgba(0,212,170,0.08);
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: 16px;
+      padding: 24px 32px;
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 32px;
+    }
+    .location-box .icon { font-size: 32px; }
+    .location-box h4 { font-size: 14px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; }
+    .location-box p { font-size: 16px; color: var(--white); }
+
+    .sponsor-box {
+      background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,107,107,0.05));
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 16px;
+      padding: 24px 32px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .sponsor-box h4 { color: var(--gold); font-size: 16px; margin-bottom: 4px; }
+    .sponsor-box p { color: var(--gray); font-size: 14px; }
+
+    .register-btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: var(--aqua);
+      color: var(--navy);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 3px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 30px var(--aqua-glow);
+    }
+    .register-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px var(--aqua-glow); }
+
+    /* CHEER PANEL */
+    .cheer-panel { border-top: 2px solid var(--coral); }
+
+    .cheer-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .cheer-hero .emoji { font-size: 60px; margin-bottom: 16px; display: block; }
+    .cheer-hero h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      color: var(--coral);
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .cheer-hero p { color: var(--light-gray); font-size: 16px; max-width: 500px; margin: 0 auto; }
+
+    .interest-card {
+      background: linear-gradient(135deg, rgba(255,107,107,0.08), rgba(255,107,107,0.02));
+      border: 1px solid rgba(255,107,107,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .interest-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .interest-card p { color: var(--gray); font-size: 14px; margin-bottom: 24px; }
+    .interest-card .coming-soon {
+      display: inline-block;
+      background: rgba(255,107,107,0.15);
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--coral);
+      margin-top: 12px;
+    }
+
+    /* CONTACT SECTION */
+    .contact-section {
+      padding: 80px 24px;
+      border-top: 1px solid rgba(0,180,216,0.1);
+    }
+    .contact-grid {
+      max-width: 800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .contact-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(0,180,216,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .contact-card:hover { border-color: var(--aqua); }
+    .contact-card .icon { font-size: 32px; margin-bottom: 12px; display: block; }
+    .contact-card h4 { font-size: 13px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .contact-card a {
+      color: var(--aqua);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(0,180,216,0.08);
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--light-gray);
+    }
+    .footer-logo .dolphins { color: var(--aqua); }
+    footer p { color: var(--gray); font-size: 13px; margin-top: 8px; }
+
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="content">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">WATTS <span class="dolphins">DOLPHINS</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#football">Football</a></li>
+      <li><a href="#cheer">Cheer</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#register" class="nav-cta">Register</a></li>
+    </ul>
+    <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🏆 2026 Season</div>
+      <h1><span class="watts">WATTS</span> <span class="dolphins">DOLPHINS</span></h1>
+      <div class="hero-sub">YOUTH FOOTBALL & CHEER</div>
+      <p>Building champions on and off the field. Register your child for the 2026 season at Ted Watkins Park.</p>
+      <div class="hero-buttons">
+        <a href="#football" class="btn btn-football">🏈 Football Sign-Up</a>
+        <a href="#cheer" class="btn btn-cheer">📣 Cheer Interest Form</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB SELECTOR -->
+  <div class="tab-section">
+    <div class="tab-buttons">
+      <button class="tab-btn active-football" onclick="showTab('football')">🏈 FOOTBALL</button>
+      <button class="tab-btn" onclick="showTab('cheer')">📣 CHEER</button>
+    </div>
+  </div>
+
+  <!-- FOOTBALL PANEL -->
+  <div class="panel football-panel active" id="football">
+    <div class="pricing-card">
+      <div class="pricing-label">Early Bird Pricing</div>
+      <div class="pricing-amount">$300 <span class="regular">$350</span></div>
+      <div class="pricing-note">Lock in the early bird rate before it's gone</div>
+      <div class="includes-grid">
+        <div class="include-item"><span class="check">✓</span> Insurance</div>
+        <div class="include-item"><span class="check">✓</span> Uniforms</div>
+        <div class="include-item"><span class="check">✓</span> Helmet</div>
+        <div class="include-item"><span class="check">✓</span> Pads</div>
+        <div class="include-item"><span class="check">✓</span> Team Pictures</div>
+        <div class="include-item"><span class="check">✓</span> Banquet</div>
+        <div class="include-item"><span class="check">✓</span> League Fees</div>
+      </div>
+    </div>
+
+    <div class="location-box">
+      <div class="icon">📍</div>
+      <div>
+        <h4>Home Field</h4>
+        <p>Ted Watkins Park — Los Angeles, CA</p>
+      </div>
+    </div>
+
+    <div class="sponsor-box">
+      <h4>💪 Sponsorships Available for Big Boys</h4>
+      <p>Want to support the team? Reach out about sponsorship opportunities.</p>
+    </div>
+
+    <a href="#contact" class="register-btn" id="register">REGISTER FOR FOOTBALL →</a>
+  </div>
+
+  <!-- CHEER PANEL -->
+  <div class="panel cheer-panel" id="cheer">
+    <div class="cheer-hero">
+      <span class="emoji">📣</span>
+      <h2>WATTS DOLPHINS CHEER</h2>
+      <p>2026-2027 Season — Interest form now open!</p>
+    </div>
+
+    <div class="interest-card">
+      <h3>Is Your Daughter Ready to Cheer? 📣</h3>
+      <p>The new cheer season is approaching soon! Fill out the interest form today to secure your spot.</p>
+      <form action="https://formspree.io/f/mreaqkdr" method="POST">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <input type="text" name="parent_name" placeholder="Parent Name" required style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,107,107,0.2); background:rgba(255,255,255,0.05); color:white; font-family:Inter,sans-serif; font-size:14px; outline:none;">
+          <input type="text" name="child_name" placeholder="Child's Name" required style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,107,107,0.2); background:rgba(255,255,255,0.05); color:white; font-family:Inter,sans-serif; font-size:14px; outline:none;">
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <input type="tel" name="phone" placeholder="Phone Number" required style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,107,107,0.2); background:rgba(255,255,255,0.05); color:white; font-family:Inter,sans-serif; font-size:14px; outline:none;">
+          <input type="email" name="email" placeholder="Email" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,107,107,0.2); background:rgba(255,255,255,0.05); color:white; font-family:Inter,sans-serif; font-size:14px; outline:none;">
+        </div>
+        <input type="hidden" name="program" value="cheer">
+        <button type="submit" style="width:100%; padding:14px; background:var(--coral); color:var(--navy); border:none; border-radius:10px; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:2px; cursor:pointer; font-weight:700;">SUBMIT INTEREST FORM →</button>
+      </form>
+      <div class="coming-soon">⏳ Official Sign-Up Details Coming Soon!</div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div style="text-align:center; margin-bottom:40px;">
+      <div style="font-size:13px; font-weight:800; letter-spacing:3px; color:var(--aqua); text-transform:uppercase; margin-bottom:8px;">Get In Touch</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px;">Contact Watts Dolphins</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span class="icon">📧</span>
+        <h4>Email</h4>
+        <a href="mailto:wattsdolphins@gmail.com">wattsdolphins@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon">📱</span>
+        <h4>Instagram</h4>
+        <a href="https://instagram.com/wattsdolphinsyouth" target="_blank">@wattsdolphinsyouth</a>
+      </div>
+      <div class="contact-card">
+        <span class="icon">📍</span>
+        <h4>Location</h4>
+        <a href="#">Ted Watkins Park, LA</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">WATTS <span class="dolphins">DOLPHINS</span></div>
+    <p>© 2026 Watts Dolphins Youth Football & Cheer. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => { b.className = 'tab-btn'; });
+    
+    if (tab === 'football') {
+      document.getElementById('football').classList.add('active');
+      document.querySelectorAll('.tab-btn')[0].classList.add('active-football');
+    } else {
+      document.getElementById('cheer').classList.add('active');
+      document.querySelectorAll('.tab-btn')[1].classList.add('active-cheer');
+    }
+  }
+
+  // Close mobile nav
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Tab from hash
+  if (window.location.hash === '#cheer') showTab('cheer');
+  if (window.location.hash === '#football') showTab('football');
+</script>
+
+</body>
+</html>
